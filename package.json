@@ -9,6 +9,7 @@
     "monitor": "node src/browser-monitor.js",
     "dev:monitor": "nodemon src/browser-monitor.js",
     "export-cookies": "node src/cookie-exporter.js",
+    "direct-monitor": "node src/direct-status-monitor.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
