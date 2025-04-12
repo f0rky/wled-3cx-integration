@@ -1,0 +1,28 @@
+{
+  "name": "wled-3cx-integration",
+  "version": "1.0.0",
+  "description": "Integration between 3CX phone system and WLED LED strips to display call status",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "wled",
+    "3cx",
+    "integration",
+    "led",
+    "status"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.0",
+    "dotenv": "^16.3.1",
+    "ws": "^8.14.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
