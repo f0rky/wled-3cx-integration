@@ -10,19 +10,9 @@ const express = require('express');
 const http = require('http');
 const WebSocket = require('ws');
 const packageJson = require('../package.json');
-
-// Force clear cache for the module we are debugging to ensure latest code is loaded
-const threeCxClientPath = require.resolve('./threecx-web-client-fixed');
-if (require.cache[threeCxClientPath]) {
-  delete require.cache[threeCxClientPath];
-  logger.warn('Cleared Node.js cache for threecx-web-client-fixed.js');
-}
-
-const threeCxWebClient = require('./threecx-web-client-fixed'); // Use the fixed version
-const { updateWLED } = require('./wled-controller');
 const pino = require('pino');
 
-// Initialize logger
+// Initialize logger first before using it anywhere else
 const logger = pino({
   level: process.env.LOG_LEVEL || 'info', // Default to 'info'
   transport: {
@@ -34,6 +24,16 @@ const logger = pino({
     },
   },
 });
+
+// Force clear cache for the module we are debugging to ensure latest code is loaded
+const threeCxClientPath = require.resolve('./threecx-web-client-fixed');
+if (require.cache[threeCxClientPath]) {
+  delete require.cache[threeCxClientPath];
+  logger.warn('Cleared Node.js cache for threecx-web-client-fixed.js');
+}
+
+const threeCxWebClient = require('./threecx-web-client-fixed'); // Use the fixed version
+const { updateWLED } = require('./wled-controller');
 
 // Application version from package.json
 const APP_VERSION = packageJson.version;
@@ -68,6 +68,21 @@ const config = {
 
 // Create Express app
 const app = express();
+
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Serve static files from the public directory
+const path = require('path');
+app.use(express.static(path.join(__dirname, '..', 'public')));
+
+// Serve index.html for the root route
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+});
+
+// Create HTTP server and WebSocket server
 const server = http.createServer(app);
 const wss = new WebSocket.Server({
   server,

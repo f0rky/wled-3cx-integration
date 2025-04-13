@@ -1,20 +1,23 @@
 {
-  "name": "wled-3cx-integration",
-  "version": "1.0.0",
-  "description": "Integration between 3CX phone system and WLED LED strips to display call status",
-  "main": "src/index.js",
+  "name": "wled-3cx-splynx-integration",
+  "version": "2.0.0",
+  "description": "Integration between 3CX/Splynx phone systems and WLED LED strips to display call status",
+  "main": "src/app.js",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js",
-    "monitor": "node src/browser-monitor.js",
-    "dev:monitor": "nodemon src/browser-monitor.js",
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "monitor": "node src/window-monitor.js",
+    "dev:monitor": "nodemon src/window-monitor.js",
     "export-cookies": "node src/cookie-exporter.js",
     "direct-monitor": "node src/direct-status-monitor.js",
+    "lint": "eslint . --ext .js --fix",
+    "format": "prettier --write .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "wled",
     "3cx",
+    "splynx",
     "integration",
     "led",
     "status"
@@ -24,12 +27,20 @@
   "dependencies": {
     "axios": "^1.6.0",
     "dotenv": "^16.3.1",
+    "express": "^4.21.2",
+    "pino": "^9.6.0",
     "puppeteer": "^24.6.1",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
     "ws": "^8.14.2"
   },
   "devDependencies": {
-    "nodemon": "^3.1.9"
+    "eslint": "^9.24.0",
+    "eslint-config-prettier": "^10.1.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^5.2.6",
+    "nodemon": "^3.1.9",
+    "pino-pretty": "^13.0.0",
+    "prettier": "^3.5.3"
   }
 }
