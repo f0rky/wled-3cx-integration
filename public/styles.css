@@ -1,0 +1,110 @@
+/* WLED-3CX-Splynx Integration Styles */
+
+body {
+    background-color: #f8f9fa;
+}
+
+.card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background-color: #f1f5f9;
+}
+
+.status-indicator {
+    display: flex;
+    gap: 10px;
+}
+
+.status-display {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.status-color-box {
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    margin-right: 10px;
+    background-color: #6c757d;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.status-text {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.status-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.btn-purple {
+    background-color: #6f42c1;
+    color: white;
+}
+
+.btn-orange {
+    background-color: #fd7e14;
+    color: white;
+}
+
+.detected-windows {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #f8f9fa;
+}
+
+.window-item {
+    padding: 8px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    background-color: white;
+    border: 1px solid #dee2e6;
+}
+
+.window-title {
+    font-weight: 500;
+}
+
+.window-process {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.active-window {
+    border-left: 4px solid #198754;
+}
+
+/* Status colors */
+.status-available {
+    background-color: #198754;
+}
+
+.status-ringing {
+    background-color: #ffc107;
+}
+
+.status-onCall {
+    background-color: #dc3545;
+}
+
+.status-dnd {
+    background-color: #6f42c1;
+}
+
+.status-away {
+    background-color: #fd7e14;
+}
+
+.status-offline {
+    background-color: #0d6efd;
+}

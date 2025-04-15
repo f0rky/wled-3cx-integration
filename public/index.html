@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WLED-3CX-Splynx Integration</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">WLED-3CX-Splynx Integration</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html">Control Panel</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">Team Dashboard</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h2>WLED-3CX-Splynx Integration</h2>
+                        <div class="status-indicator">
+                            <span id="status-badge" class="badge bg-secondary">Offline</span>
+                            <span id="monitoring-badge" class="badge bg-success">Monitoring</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4>Current Status</h4>
+                                <div class="status-display mb-3">
+                                    <div id="status-color" class="status-color-box"></div>
+                                    <div id="status-text" class="status-text">Offline</div>
+                                </div>
+                                
+                                <div class="form-check form-switch mb-3">
+                                    <input class="form-check-input" type="checkbox" id="monitoring-toggle" checked>
+                                    <label class="form-check-label" for="monitoring-toggle">3CX Status Monitoring Active</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h4>Manual Override</h4>
+                                <p>Click a status to manually set the WLED color:</p>
+                                <div class="status-buttons">
+                                    <button class="btn btn-success status-btn" data-status="available">Available</button>
+                                    <button class="btn btn-warning status-btn" data-status="ringing">Ringing</button>
+                                    <button class="btn btn-danger status-btn" data-status="onCall">On Call</button>
+                                    <button class="btn btn-purple status-btn" data-status="dnd">Do Not Disturb</button>
+                                    <button class="btn btn-orange status-btn" data-status="away">Away</button>
+                                    <button class="btn btn-primary status-btn" data-status="offline">Offline</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h4>WLED Settings</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="brightness-slider" class="form-label">Brightness: <span id="brightness-value">128</span></label>
+                                    <input type="range" class="form-range" id="brightness-slider" min="0" max="255" value="128">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="transition-slider" class="form-label">Transition Time: <span id="transition-value">1000</span>ms</label>
+                                    <input type="range" class="form-range" id="transition-slider" min="0" max="5000" step="100" value="1000">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button id="apply-settings" class="btn btn-primary">Apply Settings</button>
+                                <button id="turn-off-wled" class="btn btn-secondary">Turn Off WLED</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h4>Call Statistics</h4>
+                        <button id="update-call-stats" class="btn btn-sm btn-primary">Update Stats</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <div class="stat-display">
+                                    <div class="stat-label">Waiting Calls</div>
+                                    <div class="stat-value" id="waiting-calls">0</div>
+                                    <input type="number" class="form-control form-control-sm mt-2" id="waiting-calls-input" min="0" value="0">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="stat-display">
+                                    <div class="stat-label">Active Calls</div>
+                                    <div class="stat-value" id="active-calls">0</div>
+                                    <input type="number" class="form-control form-control-sm mt-2" id="active-calls-input" min="0" value="0">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="stat-display">
+                                    <div class="stat-label">Total Calls</div>
+                                    <div class="stat-value" id="total-calls">0</div>
+                                    <input type="number" class="form-control form-control-sm mt-2" id="total-calls-input" min="0" value="0">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="stat-display">
+                                    <div class="stat-label">Serviced Calls</div>
+                                    <div class="stat-value" id="serviced-calls">0</div>
+                                    <input type="number" class="form-control form-control-sm mt-2" id="serviced-calls-input" min="0" value="0">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="stat-display">
+                                    <div class="stat-label">Abandoned Calls</div>
+                                    <div class="stat-value" id="abandoned-calls">0</div>
+                                    <input type="number" class="form-control form-control-sm mt-2" id="abandoned-calls-input" min="0" value="0">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="stat-display">
+                                    <div class="stat-label">Last Updated</div>
+                                    <div class="stat-value small" id="last-updated">-</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <div class="alert alert-info small">
+                                    <i class="bi bi-info-circle"></i> These statistics can be manually set for testing or when automatic detection fails. The values will be broadcast to all connected clients.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h4>3CX Web Client Status</h4>
+                        <button id="refresh-debug" class="btn btn-sm btn-primary">Refresh</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <h5>WLED Status</h5>
+                                <div id="wled-status" class="wled-status mb-3">
+                                    <div class="alert alert-secondary">Checking WLED connection...</div>
+                                </div>
+                                <button id="test-wled" class="btn btn-sm btn-primary">Test WLED Connection</button>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>3CX Authentication</h5>
+                                <div id="threecx-auth-status" class="mb-3">
+                                    <div class="alert alert-info">Checking 3CX authentication status...</div>
+                                </div>
+                                <div class="btn-group mb-3">
+                                    <button id="reset-auth" class="btn btn-sm btn-warning">Reset Authentication</button>
+                                    <button id="take-screenshot" class="btn btn-sm btn-info">Take 3CX Screenshot</button>
+                                </div>
+                                <div id="screenshot-container" class="mt-3 d-none">
+                                    <h6>3CX Interface Screenshot</h6>
+                                    <div class="screenshot-wrapper">
+                                        <img id="screenshot-image" class="img-fluid border" src="" alt="3CX Screenshot">
+                                    </div>
+                                    <div class="mt-2">
+                                        <a id="screenshot-link" href="" target="_blank" class="btn btn-sm btn-primary">View Full Size</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <h5>3CX Status Information:</h5>
+                            <div id="threecx-status" class="mb-3">
+                                <div class="alert alert-info">Waiting for 3CX status information...</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <h5>Connection Details:</h5>
+                            <div id="connection-details" class="">
+                                <div class="alert alert-info">Waiting for connection details...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
